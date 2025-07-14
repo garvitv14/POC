@@ -7,7 +7,7 @@
 # Tested on: Kali Linux, Apache
 
 Description
-• A critical security flaw allows attackers to bypass reCAPTCHA validation entirely by including a custom HTTP header X-Skip-Recaptcha: true in requests. The server-side logic incorrectly trusts this header before verifying the Google reCAPTCHA token—thus granting access without actual human verification.
+• A security flaw allows attackers to bypass reCAPTCHA validation entirely by including a custom HTTP header X-Skip-Recaptcha: true in requests. The server-side logic incorrectly trusts this header before verifying the Google reCAPTCHA token—thus granting access without actual human verification.
 Vulnerability detail
 • Endpoint logic performs reCAPTCHA validation unless it detects X-Skip-Recaptcha: true.
 • Clients including this header are mistakenly allowed to pass bypass protections, effectively disabling reCAPTCHA enforcement.
