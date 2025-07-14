@@ -1,6 +1,6 @@
 # Exploit Title: Google reCAPTCHA Bypass using X‑Skip‑Recaptcha HTTP header
 # Exploit Author: Garvit Verma
-# Vendor Name: Private 
+# Vendor Name: **PHRASE** 
 # Vendor Homepage: 
 # Software Link:
 # Version: v1.0
