@@ -16,8 +16,11 @@ Summary
 
 Technical Details
 • The backend checks for a custom header X-Skip-Recaptcha.
+
 • If present and set to true, the server skips reCAPTCHA validation.
+
 • This behavior likely originates from a debugging or testing shortcut that was inadvertently left in production.
+
 • No CAPTCHA token is required when this header is used.
 
 Proof of Concept
@@ -27,10 +30,17 @@ curl -X POST https://target-app.com/form \
 
 Impact
 • reCAPTCHA can be bypassed on affected endpoints
+
 • Automated submissions may be possible
+
 • Verification emails or other actions could be triggered without solving CAPTCHA
+
 • Potential abuse includes:
+
 • Form spamming
+
 • Account creation automation
+
 • Brute-force attempts
+
 • CAPTCHA rate-limiting circumvention
