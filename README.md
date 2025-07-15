@@ -1,9 +1,13 @@
 reCAPTCHA Bypass via X-Skip-Recaptcha Header
 
 Author: Garvit Verma
+
 Tested On: Kali Linux, Apache
+
 Version Affected: v1.0
+
 Exploit Type: Server-side logic misconfiguration
+
 Disclosure Status: Public
 
 Summary
