@@ -1,29 +1,31 @@
-# Exploit Title: Google reCAPTCHA Bypass using X‑Skip‑Recaptcha HTTP header
-# Exploit Author: Garvit Verma
-# Vendor Name: **PHRASE** 
-# Vendor Homepage: 
-# Software Link:
-# Version: v1.0
-# Tested on: Kali Linux, Apache
+reCAPTCHA Bypass via X-Skip-Recaptcha Header
+Author: Garvit Verma
+Tested On: Kali Linux, Apache
+Version Affected: v1.0
+Exploit Type: Server-side logic misconfiguration
+Disclosure Status: Public
 
-Description
-• A security flaw allows attackers to bypass reCAPTCHA validation entirely by including a custom HTTP header X-Skip-Recaptcha: true in requests. The server-side logic incorrectly trusts this header before verifying the Google reCAPTCHA token—thus granting access without actual human verification.
-Vulnerability detail
-• Endpoint logic performs reCAPTCHA validation unless it detects X-Skip-Recaptcha: true.
-• Clients including this header are mistakenly allowed to pass bypass protections, effectively disabling reCAPTCHA enforcement.
+Summary
+• A server-side implementation issue allows bypassing Google reCAPTCHA verification by including a custom HTTP header: X-Skip-Recaptcha: true. This header short-circuits CAPTCHA checks and allows requests to proceed without validation.
+• While the application may return a 500 Internal Server Error for some actions (e.g., account creation), side effects like triggering verification emails still succeed—demonstrating that CAPTCHA checks were bypassed.
 
-Exploit POC:
-curl -X POST https://your-app.com/form \
+Technical Details
+• The backend checks for a custom header X-Skip-Recaptcha.
+• If present and set to true, the server skips reCAPTCHA validation.
+• This behavior likely originates from a debugging or testing shortcut that was inadvertently left in production.
+• No CAPTCHA token is required when this header is used.
+
+Proof of Concept
+curl -X POST https://target-app.com/form \
   -H "X-Skip-Recaptcha: true" \
-  -d "name=Alice&...otherFormFields..."
+  -d "name=Alice&email=alice@example.com&...otherFields..."
 
-This request bypasses reCAPTCHA and submits data without token verification.
-
-Impact:
-• Allows full reCAPTCHA bypass
-• Enables spam, automated submissions, account creation automation, brute forcing, or abuse of protected functionality
-
-Mitigation
-• Remove any conditional checks for X-Skip-Recaptcha: true
-• Enforce server-side reCAPTCHA token validation using Google’s API on every request
-• Use secure header whitelisting; reject unknown or untrusted headers upstream (proxy/load‑balancer).
+Impact
+• reCAPTCHA can be bypassed on affected endpoints
+• Automated submissions may be possible
+• Verification emails or other actions could be triggered without solving CAPTCHA
+• Potential abuse includes:
+• Form spamming
+• Account creation automation
+• Brute-force attempts
+• CAPTCHA rate-limiting circumvention
